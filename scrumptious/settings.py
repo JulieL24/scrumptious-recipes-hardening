@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 import dj_database_url
 
+LOGIN_REDIRECT_URL = "recipes_list"
+LOGOUT_REDIRECT_URL = "recipes_list"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
