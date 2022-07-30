@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+  {% block content %}
+  <main class="recipe-detail">
+    <div>
+        <a href="{% url 'edit_plan' mealplan.id %}">Edit</a>
+        <a href="{% url 'delete_plan' mealplan.id %}">Delete</a> 
+    </div>
+   
+    <h1>{{ mealplan.name }}</h1>
+    <h2>Date to be served: {{ mealplan.date }} </h2>
+    <p>
+      name of associated recipes : {{ mealplan.meal_plans.all }} 
+    </p>
+  </main>
+{% endblock %}
