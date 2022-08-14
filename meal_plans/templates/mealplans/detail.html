@@ -7,10 +7,12 @@
         <a href="{% url 'delete_plan' mealplan.id %}">Delete</a> 
     </div>
    
-    <h1>{{ mealplan.name }}</h1>
+    <h1>Recipes for {{ mealplan.name }}</h1>
     <h2>Date to be served: {{ mealplan.date }} </h2>
+    {% for recipe in mealplan.recipes.all %}
     <p>
-      name of associated recipes : {{ mealplan.meal_plans.all }} 
+      <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
     </p>
+    {% endfor %}
   </main>
 {% endblock %}

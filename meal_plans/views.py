@@ -48,7 +48,7 @@ class MealPlanUpdateView(LoginRequiredMixin, UpdateView):
         return MealPlan.objects.filter(owner=self.request.user)
 
     def get_success_url(self):
-        return reverse_lazy("detaial_plan", args=[self.object.pk])
+        return reverse_lazy("detail_plan", args=[self.object.pk])
 
 
 class MealPlanDeleteView(LoginRequiredMixin, DeleteView):

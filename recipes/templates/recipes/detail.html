@@ -1,4 +1,8 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load markdownify %}
+
+<!-- load our filter! -->
+{% load resizer %}
 
   {% block content %}
   <main class="recipe-detail">
@@ -15,6 +19,17 @@
       Created on {{ recipe.created }} |
       Updated on {{ recipe.updated }}
     </p>
+
+    {% if recipe.servings %}
+    <p>
+      Serves {{ servings|default_if_none:recipe.servings }}
+    </p>
+    <form method="GET">
+      <input required type="number" name="servings">
+      <button>Resize</button>
+    </form>
+    {% endif %}
+
     <form method="post" action="{% url 'recipe_rating' recipe.id %}">
       {% csrf_token %}
       <div class="rating-form-grid">
@@ -35,12 +50,25 @@
       </thead>
       <tbody>
         {% for ingredient in recipe.ingredients.all %}
-          <tr>
-            <td>{{ ingredient.amount }}</td>
-            <td>{{ ingredient.measure.name }}</td>
-            <td>{{ ingredient.food.name }}</td>
-          </tr>
-        {% endfor %}
+        <tr>
+          <td>{{ ingredient|resize_to:servings }}</td>
+          <td>{{ ingredient.measure.name }}</td>
+          <td>{{ ingredient.food.name }}</td>
+          <!-- new code -->
+          <td>
+            {% if ingredient.food not in shopping_item_list %}
+            <form method ="POST" action="{% url 'shopping_item_create' %}">
+              {% csrf_token%}
+              <input type="hidden" name="ingredient_id" value="{{ ingredient.id }}">
+              <button>+ shopping list</button>
+            </form>
+            {% else %}
+             in your list
+            {% endif %}
+          </td> 
+        <!-- new code--> 
+        </tr>
+      {% endfor %}
       </tbody>
     </table>
     <h2>Steps</h2>
